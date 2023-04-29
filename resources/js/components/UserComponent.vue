@@ -151,7 +151,7 @@ export default {
                 })
                 .catch(error => {
                     this.editFormErrors = error.response.data.errors;
-                    this.fetchDoctors();
+                    this.fetch();
                 })
         },
         updateApprovedMethod(FormData)
@@ -164,7 +164,7 @@ export default {
                 })
                 .catch(error => {
                     this.editFormErrors = error.response.data.errors;
-                    this.fetchDoctors();
+                    this.fetch();
                 })
         },
         deleteMethod(id)

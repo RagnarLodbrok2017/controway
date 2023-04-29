@@ -51,7 +51,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         _this2.editFormErrors = error.response.data.errors;
-        _this2.fetchDoctors();
+        _this2.fetch();
       });
     },
     updateApprovedMethod: function updateApprovedMethod(FormData) {
@@ -62,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         _this3.editFormErrors = error.response.data.errors;
-        _this3.fetchDoctors();
+        _this3.fetch();
       });
     },
     deleteMethod: function deleteMethod(id) {

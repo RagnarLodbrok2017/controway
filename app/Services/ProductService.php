@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Imports\ImportProduct;
+use App\Imports\ImportProductWithoutHeaders;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductService
 {
@@ -18,6 +21,35 @@ class ProductService
     public function getAll()
     {
         return $this->productRepository->getAll();
+    }
+    public function import($file)
+    {
+        if ($file) {
+            try {
+                DB::beginTransaction();
+                Excel::import(new ImportProduct, $file);
+                DB::commit();
+            }
+            catch (Exception $ex)
+            {
+                DB::rollBack();
+                try {
+                    DB::beginTransaction();
+                    Excel::import(new ImportProductWithoutHeaders, $file);
+                    DB::commit();
+                }
+                catch (Exception $ex)
+                {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => 'failed',
+                        'message' => $ex->getMessage(),
+                    ], 502);
+                }
+            }
+            return response()->json(['message' => 'Import completed successfully']);
+
+        }
     }
     public function getFirst()
     {

@@ -89,16 +89,46 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    importExcelProducts: function importExcelProducts() {
+      var _this5 = this;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this setting!',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var formData = new FormData();
+          formData.append('file', _this5.$refs.select_products_file.files[0]);
+          axios.post(base_url + 'api/products/import_excel', formData).then(function (response) {
+            _this5.fetch();
+            SwalHelper.successWithMessage('Import completed successfully');
+          })["catch"](function (error) {
+            SwalHelper.errorWithMessage(error.response.data.message);
+          });
+        }
+      });
+    },
+    exportExcelProducts: function exportExcelProducts() {
+      axios.get(base_url + 'api/products/export_excel').then(function (response) {
+        // this.products = response.data.products;
+      })["catch"](function (error) {
+        _Helpers_SwalHelper__WEBPACK_IMPORTED_MODULE_0__["default"].errorWithMessage('no data loaded');
+      });
     }
   },
   computed: {
     ProductsSearchFilter: function ProductsSearchFilter() {
-      var _this5 = this;
+      var _this6 = this;
       if (!this.searchTerm) {
         return this.products;
       } else {
         return this.products.filter(function (product) {
-          return product.name.toLowerCase().includes(_this5.searchTerm.toLowerCase());
+          return product.name.toLowerCase().includes(_this6.searchTerm.toLowerCase());
         });
       }
     }
@@ -311,7 +341,57 @@ var render = function render() {
       "data-bs-toggle": "modal",
       "data-bs-target": "#addModel"
     }
-  }, [_vm._v("Add product")])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c("p", {
+  }, [_vm._v("Add product")])]), _vm._v(" "), _c("div", {
+    staticClass: "col-2"
+  }, [_c("div", {
+    staticClass: "float-end d-none d-md-inline-block"
+  }, [_c("div", {
+    staticClass: "dropdown card-header-dropdown"
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "dropdown-menu dropdown-menu-end"
+  }, [_c("a", {
+    staticClass: "dropdown-item",
+    attrs: {
+      download: "products.xlsx",
+      href: "/api/products/export_excel"
+    }
+  }, [_c("button", {
+    staticClass: "btn btn-warning btn-sm",
+    on: {
+      click: _vm.exportExcelProducts
+    }
+  }, [_vm._v("Export")])]), _vm._v(" "), _c("a", {
+    staticClass: "dropdown-item",
+    attrs: {
+      href: ""
+    }
+  }, [_vm._v("\n                                            Import\n                                            "), _c("input", {
+    ref: "select_products_file",
+    staticClass: "form-control btn btn-sm",
+    attrs: {
+      type: "file",
+      name: "select_products_file",
+      accept: ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+    }
+  })]), _vm._v(" "), _c("a", {
+    staticClass: "dropdown-item"
+  }, [_c("input", {
+    staticClass: "btn btn-info",
+    attrs: {
+      type: "submit"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.importExcelProducts.apply(null, arguments);
+      }
+    }
+  })]), _vm._v(" "), _c("a", {
+    staticClass: "dropdown-item",
+    attrs: {
+      href: "#"
+    }
+  }, [_vm._v("Download Report")])])])])])]), _vm._v(" "), _c("p", {
     staticClass: "card-title-desc"
   }), _vm._v(" "), _c("table", {
     staticClass: "table table-bordered dt-responsive nowrap",
@@ -516,13 +596,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-2"
-  }, [_c("div", {
-    staticClass: "float-end d-none d-md-inline-block"
-  }, [_c("div", {
-    staticClass: "dropdown card-header-dropdown"
-  }, [_c("a", {
+  return _c("a", {
     staticClass: "text-reset dropdown-btn",
     attrs: {
       href: "#",
@@ -534,24 +608,7 @@ var staticRenderFns = [function () {
     staticClass: "text-muted"
   }, [_vm._v("Report"), _c("i", {
     staticClass: "mdi mdi-chevron-down ms-1"
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "dropdown-menu dropdown-menu-end"
-  }, [_c("a", {
-    staticClass: "dropdown-item",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Export")]), _vm._v(" "), _c("a", {
-    staticClass: "dropdown-item",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Import")]), _vm._v(" "), _c("a", {
-    staticClass: "dropdown-item",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Download Report")])])])])]);
+  })])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
-//        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');
         $this->middleware(['auth:sanctum'])->except(['loginView','login', 'registerView','register']);
     }
 
@@ -28,7 +28,8 @@ class AuthController extends Controller
         if ($user && $user->is_approved) {
             return redirect('./dashboard');
         } else {
-            $request->session()->put('approved', 'Please wait Super Admin to Approved Your request');
+//            $request->session()->put('approved', 'Please wait Super Admin to Approved Your request');
+            Session::put('approved', 'Please wait Super Admin to Approved Your request');
             return redirect()->route('user.home')->with('message', 'Please wait Super Admin to Approved Your request');
 //            return redirect('./home');
         }
@@ -44,7 +45,7 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ]);
-        $this->login($user);
+        return $this->login($user);
     }
 
     public function logout(Request $request)

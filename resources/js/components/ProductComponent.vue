@@ -71,8 +71,17 @@
                                         <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Export</a>
-                                        <a class="dropdown-item" href="#">Import</a>
+                                        <a class="dropdown-item" download="products.xlsx" href="/api/products/export_excel">
+                                            <button class="btn btn-warning btn-sm" @click="exportExcelProducts">Export</button>
+                                        </a>
+                                        <a class="dropdown-item" href="">
+                                            Import
+                                            <input class="form-control btn btn-sm" type="file" name="select_products_file" ref="select_products_file"
+                                                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                        </a>
+                                        <a class="dropdown-item">
+                                        <input type="submit" class="btn btn-info" @click.prevent="importExcelProducts"/>
+                                        </a>
                                         <a class="dropdown-item" href="#">Download Report</a>
                                     </div>
                                 </div>
@@ -263,6 +272,41 @@ export default {
                     }
                 });
             }
+        },
+        importExcelProducts()
+        {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You will not be able to recover this setting!',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const formData = new FormData();
+                        formData.append('file', this.$refs.select_products_file.files[0]);
+                        axios.post(base_url+'api/products/import_excel', formData)
+                            .then(response => {
+                                this.fetch();
+                                SwalHelper.successWithMessage('Import completed successfully');
+                            })
+                            .catch(error => {
+                                SwalHelper.errorWithMessage(error.response.data.message);
+                            })
+                    }
+                });
+        },
+        exportExcelProducts()
+        {
+            axios.get(base_url + 'api/products/export_excel')
+                .then(response => {
+                    // this.products = response.data.products;
+                })
+                .catch(error => {
+                    swalHelper.errorWithMessage('no data loaded')
+                })
         },
     },
     computed:{
