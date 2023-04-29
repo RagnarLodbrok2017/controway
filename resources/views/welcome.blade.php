@@ -55,7 +55,15 @@
                         <div class="col-12">
                             <div class="font-monospace text-center flex items-center">
                                 <p>
-                                    Task of Products
+                                    npm install
+                                    npm update
+                                    composer update
+                                    php artisan migrate --seed
+
+
+                                    php artisan serve
+                                    npm run watch
+
                                 </p>
                             </div>
                         </div>
