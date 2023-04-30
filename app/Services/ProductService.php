@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Imports\ImportProduct;
+use App\Imports\ImportProductWithMapping;
 use App\Imports\ImportProductWithoutHeaders;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
@@ -46,6 +47,42 @@ class ProductService
                         'message' => $ex->getMessage(),
                     ], 502);
                 }
+            }
+            return response()->json(['message' => 'Import completed successfully']);
+
+        }
+    }
+    public function import_excel_mapping($request)
+    {
+        if ($request) {
+            try {
+                $file = $request->file('file');
+                $fileHeadersJson = $request->input('fileHeaders');
+                if ($request->input('fileHeaders'))
+                {
+                    $fileHeadersObject = json_decode($fileHeadersJson);
+                    $import = new ImportProductWithMapping;
+
+                    $import->setMapping([
+                        'name' => $fileHeadersObject->name,
+                        'type' => $fileHeadersObject->type,
+                        'qty' => $fileHeadersObject->qty
+                    ]);
+                    DB::beginTransaction();
+                    Excel::import($import, $file);
+                }
+                else{
+                    $import = new ImportProductWithMapping;
+                    DB::beginTransaction();
+                    Excel::import($import, $file);
+                }
+                DB::commit();
+                return true;
+            }
+            catch (Exception $ex)
+            {
+                DB::rollBack();
+                return false;
             }
             return response()->json(['message' => 'Import completed successfully']);
 

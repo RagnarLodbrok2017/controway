@@ -22,9 +22,6 @@ class ImportProductWithoutHeaders implements ToModel
             'name' => $row[0],
             'type' => $row[1],
             'qty' => intval($row[2]),
-//            'name' => isset($row['products']) ? $row['products'] : '',
-//            'type' => isset($row['type']) ? $row['type'] : '',
-//            'qty' => isset($row['qty']) ? $row['qty'] : 0,
         ]);
     }
     public function getMaxColumns(): int

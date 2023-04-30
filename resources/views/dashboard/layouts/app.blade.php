@@ -258,6 +258,7 @@
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="javascript: void(0);">All</a></li>
+                            <li><a href="/dashboard/mapping">Import With Mapping</a></li>
                         </ul>
                     </li>
 

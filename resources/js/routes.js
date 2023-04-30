@@ -1,5 +1,6 @@
 let DashboardComponent = () => import('./components/DashboardComponent.vue');
 let ProductComponent = () => import('./components/ProductComponent.vue');
+let ProductMappingComponent = () => import('./components/ProductMappingComponent.vue');
 let UsersComponent = () => import('./components/UserComponent.vue');
 
 
@@ -18,6 +19,11 @@ export const routes = [
         path:'/dashboard/products',
         name:'products',
         component: ProductComponent
+    },
+    {
+        path:'/dashboard/mapping',
+        name:'mapping',
+        component: ProductMappingComponent
     },
 
 ];

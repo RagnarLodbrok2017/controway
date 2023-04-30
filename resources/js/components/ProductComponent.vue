@@ -91,7 +91,6 @@
                     <p class="card-title-desc">
 
                     </p>
-
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -282,7 +281,7 @@ export default {
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Yes, Add it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const formData = new FormData();

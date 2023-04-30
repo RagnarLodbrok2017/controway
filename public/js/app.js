@@ -3362,6 +3362,9 @@ var DashboardComponent = function DashboardComponent() {
 var ProductComponent = function ProductComponent() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_ProductComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/ProductComponent.vue */ "./resources/js/components/ProductComponent.vue"));
 };
+var ProductMappingComponent = function ProductMappingComponent() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_ProductMappingComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/ProductMappingComponent.vue */ "./resources/js/components/ProductMappingComponent.vue"));
+};
 var UsersComponent = function UsersComponent() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_UserComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/UserComponent.vue */ "./resources/js/components/UserComponent.vue"));
 };
@@ -3377,6 +3380,10 @@ var routes = [{
   path: '/dashboard/products',
   name: 'products',
   component: ProductComponent
+}, {
+  path: '/dashboard/mapping',
+  name: 'mapping',
+  component: ProductMappingComponent
 }];
 
 /***/ }),
@@ -60397,7 +60404,7 @@ module.exports = axios;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_DashboardComponent_vue":1,"resources_js_components_ProductComponent_vue":1,"resources_js_components_UserComponent_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_DashboardComponent_vue":1,"resources_js_components_ProductComponent_vue":1,"resources_js_components_ProductMappingComponent_vue":1,"resources_js_components_UserComponent_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

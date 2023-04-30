@@ -99,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, Add it!'
       }).then(function (result) {
         if (result.isConfirmed) {
           var formData = new FormData();
