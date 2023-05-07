@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthService
 {
@@ -17,7 +18,8 @@ class AuthService
         {
             if( Auth::attempt($request->only(['email', 'password'])) ){
                 $user = User::where('email', $request->email)->first();
-                $user->createToken('Admin')->plainTextToken;
+                $token = $user->createToken('Admin')->plainTextToken;
+                Session::put('token', $token);
                 return $user;
             }
         }

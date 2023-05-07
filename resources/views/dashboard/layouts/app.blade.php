@@ -263,6 +263,17 @@
                     </li>
 
                     <li>
+                        <a href="/dashboard/messages" class="has-arrow waves-effect">
+                            <i class="ri-mail-send-line"></i>
+                            <span>Chat</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="/dashboard/messages/groups">Group</a></li>
+                            <li><a href="/dashboard/messages/private">Friends</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
                         <a onclick="event.preventDefault();
                       document.getElementById('logout-form').submit();" class="has-arrow waves-effect">
                             <i class="ri-share-line"></i>

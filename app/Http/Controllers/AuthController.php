@@ -26,7 +26,9 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
         $user = $this->authService->login($request);
         if ($user && $user->is_approved) {
+//            $token = $user->createToken('Admin')->plainTextToken;
             return redirect('./dashboard');
+//            return response()->json(['token' => $token]);
         } else {
 //            $request->session()->put('approved', 'Please wait Super Admin to Approved Your request');
             Session::put('approved', 'Please wait Super Admin to Approved Your request');

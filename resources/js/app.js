@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./vue-assets');
 
 window.Vue = require('vue').default;
 
@@ -29,6 +30,18 @@ window.Vue = require('vue').default;
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import {routes} from './routes';
+
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
+
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true,
+    encrypted: false
+});
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);

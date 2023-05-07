@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -31,3 +32,6 @@ Route::get('/products/fields', [ProductController::class, 'fields']);
 //Products Route
 Route::apiResource('/products', ProductController::class);
 
+
+//Messages Route
+Route::apiResource('/messages', MessageController::class);

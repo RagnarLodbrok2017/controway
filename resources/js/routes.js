@@ -3,6 +3,10 @@ let ProductComponent = () => import('./components/ProductComponent.vue');
 let ProductMappingComponent = () => import('./components/ProductMappingComponent.vue');
 let UsersComponent = () => import('./components/UserComponent.vue');
 
+let MainMessageComponent = () => import('./components/Messages/MainMessageComponent.vue');
+let GroupMessageComponent = () => import('./components/Messages/Group/MessageComponent.vue');
+let PrivateMessageComponent = () => import('./components/Messages/Private/MessageComponent.vue');
+
 
 export const routes = [
     {
@@ -24,6 +28,21 @@ export const routes = [
         path:'/dashboard/mapping',
         name:'mapping',
         component: ProductMappingComponent
+    },
+    {
+        path:'/dashboard/messages',
+        name:'messages',
+        component: MainMessageComponent
+    },
+    {
+        path:'/dashboard/messages/groups',
+        name:'group-chat',
+        component: GroupMessageComponent
+    },
+    {
+        path:'/dashboard/messages/private',
+        name:'private-chat',
+        component: PrivateMessageComponent
     },
 
 ];
