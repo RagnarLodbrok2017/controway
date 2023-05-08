@@ -34,6 +34,14 @@ class UserController extends Controller
         }
     }
 
+    public function auth_user()
+    {
+        if (auth()->user()) {
+            $user = auth()->user();
+            return response()->json(['user' => $user]);
+        }
+    }
+
 
     public function create()
     {

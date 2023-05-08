@@ -15,77 +15,78 @@
                     </p>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-3" v-for="user in users">
-                                <div class="text-danger p-2">
-                                    <button @click="editMethod(user)" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModel">{{user.name}}</button>
-                            </div>
-                                <div class="modal" id="editModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                Chat with
-                                                <p class="font-monospace">{{ addForm.name }}</p>
-                                                <p class="font-monospace badge badge-soft-dark">Users Joined:{{ numberOfUsers }}</p>
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="post" @click.prevent="">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <div class="card">
-                                                                        <div class="card-header">
-                                                                            <h5 class="card-title col-10">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        Chat
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" @click.prevent="">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <h5 class="card-title">
                                                                                 Latest Messages
                                                                             </h5>
+                                                                        </div>
+                                                                        <div class="col-3">
                                                                             <p class="badge badge-soft-primary text-danger col-2">@{{ typing }}</p>
                                                                         </div>
-                                                                        <div class="card-body">
-                                                                            <div class="card-text">
-                                                                                <ul>
-                                                                                    <li v-for="(message,index) in chat.messages" :key="message.index">
-                                                                                        <div class="row">
-                                                                                            <div class="col-9">
-                                                                                                <p class="text-success">{{ message }}</p>
-                                                                                            </div>
-                                                                                            <div class="col-3">
-                                                                                                <p class="text-danger">{{ chat.users[index] }}</p>
-                                                                                            </div>
+                                                                        <div class="col-3">
+                                                                            <p class="font-monospace badge badge-soft-dark">Users Joined:# {{ numberOfUsers }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="card-text">
+                                                                        <div class="col-12">
+                                                                            <ul class="list-group">
+                                                                                <li v-for="(message,index) in chat.messages" :key="message.index" class="list-group-item list-group-item-info">
+                                                                                    <div class="row">
+                                                                                        <div class="col-7">
+                                                                                            <p class="font-monospace">
+                                                                                                Message:
+                                                                                                <span class="text-danger">{{ message }}</span>
+                                                                                            </p>
                                                                                         </div>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
+                                                                                        <div class="col-5">
+                                                                                            <p class="font-monospace">
+                                                                                                Sent By:
+                                                                                                <span class="text-danger">{{ chat.users[index] }}</span>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row pt-2">
-                                                                <div class="col-10">
-                                                                    <input @keyup.enter="storeMethod(addForm)" v-model="addForm.message" class="form-control" type="text" placeholder="Please Enter Type:" maxlength="50" required>
-                                                                </div>
-                                                                <div class="col-2">
-                                                                    <button  @click="storeMethod(addForm)" class="btn btn-primary">Send</button>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
-                                            </form>
-                                            <div class="col-12" v-if="addFormErrors">
-                                                <p class="text-danger" v-for="error in addFormErrors">{{ error }}</p>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-<!--                                            <button @click="storeMethod(editForm)" type="button" class="btn btn-primary">Update</button>-->
+                                    </form>
+                                </div>
+                                <div class="modal-footer col-12">
+                                    <div class="row col-12 pt-2">
+                                        <div class="col-10">
+                                            <input @keyup.enter="storeMethod(message)" v-model="message" class="form-control" type="text" placeholder="Please Enter Type:" maxlength="50" required>
+                                        </div>
+                                        <div class="col-2">
+                                            <button  @click="storeMethod(message)" class="btn btn-primary">Send</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -99,7 +100,7 @@
 
 
 export default {
-    name: "MessageComponent",
+    name: "GroupMessageComponent",
 
     created() {
         this.fetchUsers();
@@ -110,10 +111,11 @@ export default {
     data(){
         return {
             base_url:base_url,
-            form:{},
+            auth_user:auth_user,
             users:{},
-            addForm:[],
             addFormErrors:[],
+            message:'',
+            username:'',
             chat: {
                 messages:[],
                 users:[],
@@ -132,7 +134,6 @@ export default {
                 this.sendMessage(e.username, e.message);
             })
             .listenForWhisper('typing', (e) =>{
-                console.log(e);
                 if(e.message != ''){
                     this.typing = e.username + ' typing...'
                 }else{
@@ -167,17 +168,19 @@ export default {
             this.chat.users.push(username);
             this.chat.messages.push(message);
         },
-        storeMethod(FormData)
+        storeMethod(message)
         {
-            if(FormData.message === ''){
+            if(message === ''){
                 return;
             }
 
-            this.sendMessage(FormData.message, 'You');
-            axios.post(base_url + 'api/messages/' , FormData)
+            this.sendMessage('You', message);
+            let formData = new FormData();
+            formData.append('message' ,message);
+            axios.post(base_url + 'api/messages/' , formData)
                 .then(response => {
                     this.typing = '';
-                    this.addForm.message = '';
+                    this.message = '';
                     // response.data.product ? this.products.push(response.data.product) : null;
                     // this.addFormErrors = response.data.errors;
                 })
@@ -185,22 +188,17 @@ export default {
                     // this.addFormErrors = error.response.data.errors;
                 })
         },
-        editMethod(data)
-        {
-            this.addForm = data;
-            this.addFormErrors = null;
-        },
     },
     computed:{
 
     },
     watch:{
-        'addForm.message'()
+        message()
         {
             Echo.private('chat')
                 .whisper('typing',{
-                    username: this.addForm.name,
-                    message: this.addForm.message,
+                    username: this.auth_user.name,
+                    message: this.message,
                 });
         },
     }

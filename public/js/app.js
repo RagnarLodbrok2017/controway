@@ -3610,6 +3610,18 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 window.SwalHelper = _Helpers_SwalHelper__WEBPACK_IMPORTED_MODULE_0__["default"];
 
 //import All general used functions
+if (auth_user) {
+  localStorage.setItem('id', auth_user.id);
+  localStorage.setItem('name', auth_user.name);
+}
+function getAuthUser() {
+  axios.get(base_url + 'api/auth/user').then(function (response) {
+    localStorage.setItem('id', response.data.user.id);
+    localStorage.setItem('username', response.data.user.name);
+  })["catch"](function (err) {
+    console.log(err);
+  });
+}
 var token = sessionStorage.getItem('token');
 if (token) {
   axios.interceptors.request.use(function (config) {

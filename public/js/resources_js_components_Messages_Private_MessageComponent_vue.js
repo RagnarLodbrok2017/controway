@@ -76,7 +76,7 @@ __webpack_require__.r(__webpack_exports__);
       if (FormData.message === '') {
         return;
       }
-      this.sendMessage(FormData.message, 'You');
+      this.sendMessage('You', FormData.message);
       axios.post(base_url + 'api/messages/', FormData).then(function (response) {
         _this3.typing = '';
         _this3.addForm.message = '';
@@ -133,9 +133,11 @@ var render = function render() {
   }), _vm._v(" "), _c("div", {
     staticClass: "col-12"
   }, [_c("div", {
-    staticClass: "col-12"
-  }, [_vm._l(_vm.users, function (user) {
+    staticClass: "row"
+  }, _vm._l(_vm.users, function (user) {
     return _c("div", {
+      staticClass: "col-3"
+    }, [_c("div", {
       staticClass: "text-danger p-2"
     }, [_c("button", {
       staticClass: "btn btn-primary",
@@ -148,131 +150,131 @@ var render = function render() {
           return _vm.editMethod(user);
         }
       }
-    }, [_vm._v(_vm._s(user.name))])]);
-  }), _vm._v(" "), _c("div", {
-    staticClass: "modal",
-    attrs: {
-      id: "editModel",
-      tabindex: "-1",
-      "aria-labelledby": "exampleModalLabel",
-      "aria-hidden": "true"
-    }
-  }, [_c("div", {
-    staticClass: "modal-dialog modal-lg"
-  }, [_c("div", {
-    staticClass: "modal-content"
-  }, [_c("div", {
-    staticClass: "modal-header"
-  }, [_c("h5", {
-    staticClass: "modal-title",
-    attrs: {
-      id: "exampleModalLabel"
-    }
-  }, [_vm._v("\n                                                Chat with\n                                                "), _c("p", {
-    staticClass: "font-monospace"
-  }, [_vm._v(_vm._s(_vm.addForm.name))]), _vm._v(" "), _c("p", {
-    staticClass: "font-monospace badge badge-soft-dark"
-  }, [_vm._v("Users Joined:" + _vm._s(_vm.numberOfUsers))])]), _vm._v(" "), _c("button", {
-    staticClass: "btn-close",
-    attrs: {
-      type: "button",
-      "data-bs-dismiss": "modal",
-      "aria-label": "Close"
-    }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "modal-body"
-  }, [_c("form", {
-    attrs: {
-      method: "post"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
+    }, [_vm._v(_vm._s(user.name))])]), _vm._v(" "), _c("div", {
+      staticClass: "modal",
+      attrs: {
+        id: "editModel",
+        tabindex: "-1",
+        "aria-labelledby": "exampleModalLabel",
+        "aria-hidden": "true"
       }
-    }
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "card"
-  }, [_c("div", {
-    staticClass: "card-header"
-  }, [_c("h5", {
-    staticClass: "card-title col-10"
-  }, [_vm._v("\n                                                                                Latest Messages\n                                                                            ")]), _vm._v(" "), _c("p", {
-    staticClass: "badge badge-soft-primary text-danger col-2"
-  }, [_vm._v("@" + _vm._s(_vm.typing))])]), _vm._v(" "), _c("div", {
-    staticClass: "card-body"
-  }, [_c("div", {
-    staticClass: "card-text"
-  }, [_c("ul", _vm._l(_vm.chat.messages, function (message, index) {
-    return _c("li", {
-      key: message.index
+    }, [_c("div", {
+      staticClass: "modal-dialog modal-lg"
+    }, [_c("div", {
+      staticClass: "modal-content"
+    }, [_c("div", {
+      staticClass: "modal-header"
+    }, [_c("h5", {
+      staticClass: "modal-title",
+      attrs: {
+        id: "exampleModalLabel"
+      }
+    }, [_vm._v("\n                                                Chat with\n                                                "), _c("p", {
+      staticClass: "font-monospace"
+    }, [_vm._v(_vm._s(_vm.addForm.name))]), _vm._v(" "), _c("p", {
+      staticClass: "font-monospace badge badge-soft-dark"
+    }, [_vm._v("Users Joined:" + _vm._s(_vm.numberOfUsers))])]), _vm._v(" "), _c("button", {
+      staticClass: "btn-close",
+      attrs: {
+        type: "button",
+        "data-bs-dismiss": "modal",
+        "aria-label": "Close"
+      }
+    })]), _vm._v(" "), _c("div", {
+      staticClass: "modal-body"
+    }, [_c("form", {
+      attrs: {
+        method: "post"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+        }
+      }
     }, [_c("div", {
       staticClass: "row"
     }, [_c("div", {
-      staticClass: "col-9"
-    }, [_c("p", {
-      staticClass: "text-success"
-    }, [_vm._v(_vm._s(message))])]), _vm._v(" "), _c("div", {
-      staticClass: "col-3"
-    }, [_c("p", {
-      staticClass: "text-danger"
-    }, [_vm._v(_vm._s(_vm.chat.users[index]))])])])]);
-  }), 0)])])])])]), _vm._v(" "), _c("div", {
-    staticClass: "row pt-2"
-  }, [_c("div", {
-    staticClass: "col-10"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.addForm.message,
-      expression: "addForm.message"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      placeholder: "Please Enter Type:",
-      maxlength: "50",
-      required: ""
-    },
-    domProps: {
-      value: _vm.addForm.message
-    },
-    on: {
-      keyup: function keyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.storeMethod(_vm.addForm);
+      staticClass: "col-12"
+    }, [_c("div", {
+      staticClass: "form-group"
+    }, [_c("div", {
+      staticClass: "row"
+    }, [_c("div", {
+      staticClass: "col-12"
+    }, [_c("div", {
+      staticClass: "card"
+    }, [_c("div", {
+      staticClass: "card-header"
+    }, [_c("h5", {
+      staticClass: "card-title col-10"
+    }, [_vm._v("\n                                                                                Latest Messages\n                                                                            ")]), _vm._v(" "), _c("p", {
+      staticClass: "badge badge-soft-primary text-danger col-2"
+    }, [_vm._v("@" + _vm._s(_vm.typing))])]), _vm._v(" "), _c("div", {
+      staticClass: "card-body"
+    }, [_c("div", {
+      staticClass: "card-text"
+    }, [_c("ul", _vm._l(_vm.chat.messages, function (message, index) {
+      return _c("li", {
+        key: message.index
+      }, [_c("div", {
+        staticClass: "row"
+      }, [_c("div", {
+        staticClass: "col-9"
+      }, [_c("p", {
+        staticClass: "text-success"
+      }, [_vm._v(_vm._s(message))])]), _vm._v(" "), _c("div", {
+        staticClass: "col-3"
+      }, [_c("p", {
+        staticClass: "text-danger"
+      }, [_vm._v(_vm._s(_vm.chat.users[index]))])])])]);
+    }), 0)])])])])]), _vm._v(" "), _c("div", {
+      staticClass: "row pt-2"
+    }, [_c("div", {
+      staticClass: "col-10"
+    }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.addForm.message,
+        expression: "addForm.message"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        type: "text",
+        placeholder: "Please Enter Type:",
+        maxlength: "50",
+        required: ""
       },
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.addForm, "message", $event.target.value);
+      domProps: {
+        value: _vm.addForm.message
+      },
+      on: {
+        keyup: function keyup($event) {
+          if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+          return _vm.storeMethod(_vm.addForm);
+        },
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.addForm, "message", $event.target.value);
+        }
       }
-    }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "col-2"
-  }, [_c("button", {
-    staticClass: "btn btn-primary",
-    on: {
-      click: function click($event) {
-        return _vm.storeMethod(_vm.addForm);
+    })]), _vm._v(" "), _c("div", {
+      staticClass: "col-2"
+    }, [_c("button", {
+      staticClass: "btn btn-primary",
+      on: {
+        click: function click($event) {
+          return _vm.storeMethod(_vm.addForm);
+        }
       }
-    }
-  }, [_vm._v("Send")])])])])])])]), _vm._v(" "), _vm.addFormErrors ? _c("div", {
-    staticClass: "col-12"
-  }, _vm._l(_vm.addFormErrors, function (error) {
-    return _c("p", {
-      staticClass: "text-danger"
-    }, [_vm._v(_vm._s(error))]);
-  }), 0) : _vm._e()]), _vm._v(" "), _vm._m(1)])])])], 2)])])])])]);
+    }, [_vm._v("Send")])])])])])])]), _vm._v(" "), _vm.addFormErrors ? _c("div", {
+      staticClass: "col-12"
+    }, _vm._l(_vm.addFormErrors, function (error) {
+      return _c("p", {
+        staticClass: "text-danger"
+      }, [_vm._v(_vm._s(error))]);
+    }), 0) : _vm._e()]), _vm._v(" "), _vm._m(1, true)])])])]);
+  }), 0)])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

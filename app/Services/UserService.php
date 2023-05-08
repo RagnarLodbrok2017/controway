@@ -19,6 +19,10 @@ class UserService
     {
         return $this->userRepository->getAll();
     }
+    public function getAuthUser($id)
+    {
+        return $this->userRepository->getAll();
+    }
     public function getFirst()
     {
         return $this->userRepository->getFirst();

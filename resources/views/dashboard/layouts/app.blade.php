@@ -26,7 +26,7 @@
 <body data-topbar="dark">
 <script>
     var base_url = "{{ getBaseUrl() }}";
-    {{--var csrf_token = {{ getCsrfToken() }};--}}
+    var auth_user = <?php echo json_encode(auth()->user()) ?>;
 </script>
 <!-- Begin page -->
 <div id="layout-wrapper">

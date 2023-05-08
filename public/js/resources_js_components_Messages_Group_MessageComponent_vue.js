@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "MessageComponent",
+  name: "GroupMessageComponent",
   created: function created() {
     this.fetchUsers();
   },
@@ -20,10 +20,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       base_url: base_url,
-      form: {},
+      auth_user: auth_user,
       users: {},
-      addForm: [],
       addFormErrors: [],
+      message: '',
+      username: '',
       chat: {
         messages: [],
         users: []
@@ -41,7 +42,6 @@ __webpack_require__.r(__webpack_exports__);
     Echo["private"]('chat').listen('ChatEvent', function (e) {
       _this.sendMessage(e.username, e.message);
     }).listenForWhisper('typing', function (e) {
-      console.log(e);
       if (e.message != '') {
         _this.typing = e.username + ' typing...';
       } else {
@@ -71,32 +71,30 @@ __webpack_require__.r(__webpack_exports__);
       this.chat.users.push(username);
       this.chat.messages.push(message);
     },
-    storeMethod: function storeMethod(FormData) {
+    storeMethod: function storeMethod(message) {
       var _this3 = this;
-      if (FormData.message === '') {
+      if (message === '') {
         return;
       }
-      this.sendMessage(FormData.message, 'You');
-      axios.post(base_url + 'api/messages/', FormData).then(function (response) {
+      this.sendMessage('You', message);
+      var formData = new FormData();
+      formData.append('message', message);
+      axios.post(base_url + 'api/messages/', formData).then(function (response) {
         _this3.typing = '';
-        _this3.addForm.message = '';
+        _this3.message = '';
         // response.data.product ? this.products.push(response.data.product) : null;
         // this.addFormErrors = response.data.errors;
       })["catch"](function (error) {
         // this.addFormErrors = error.response.data.errors;
       });
-    },
-    editMethod: function editMethod(data) {
-      this.addForm = data;
-      this.addFormErrors = null;
     }
   },
   computed: {},
   watch: {
-    'addForm.message': function addFormMessage() {
+    message: function message() {
       Echo["private"]('chat').whisper('typing', {
-        username: this.addForm.name,
-        message: this.addForm.message
+        username: this.auth_user.name,
+        message: this.message
       });
     }
   }
@@ -134,147 +132,113 @@ var render = function render() {
     staticClass: "col-12"
   }, [_c("div", {
     staticClass: "row"
-  }, _vm._l(_vm.users, function (user) {
-    return _c("div", {
-      staticClass: "col-3"
-    }, [_c("div", {
-      staticClass: "text-danger p-2"
-    }, [_c("button", {
-      staticClass: "btn btn-primary",
-      attrs: {
-        "data-bs-toggle": "modal",
-        "data-bs-target": "#editModel"
-      },
-      on: {
-        click: function click($event) {
-          return _vm.editMethod(user);
-        }
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("form", {
+    attrs: {
+      method: "post"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
       }
-    }, [_vm._v(_vm._s(user.name))])]), _vm._v(" "), _c("div", {
-      staticClass: "modal",
-      attrs: {
-        id: "editModel",
-        tabindex: "-1",
-        "aria-labelledby": "exampleModalLabel",
-        "aria-hidden": "true"
-      }
+    }
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "card"
+  }, [_c("div", {
+    staticClass: "card-header"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_vm._m(2), _vm._v(" "), _c("div", {
+    staticClass: "col-3"
+  }, [_c("p", {
+    staticClass: "badge badge-soft-primary text-danger col-2"
+  }, [_vm._v("@" + _vm._s(_vm.typing))])]), _vm._v(" "), _c("div", {
+    staticClass: "col-3"
+  }, [_c("p", {
+    staticClass: "font-monospace badge badge-soft-dark"
+  }, [_vm._v("Users Joined:# " + _vm._s(_vm.numberOfUsers))])])])]), _vm._v(" "), _c("div", {
+    staticClass: "card-body"
+  }, [_c("div", {
+    staticClass: "card-text"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("ul", {
+    staticClass: "list-group"
+  }, _vm._l(_vm.chat.messages, function (message, index) {
+    return _c("li", {
+      key: message.index,
+      staticClass: "list-group-item list-group-item-info"
     }, [_c("div", {
-      staticClass: "modal-dialog modal-lg"
+      staticClass: "row"
     }, [_c("div", {
-      staticClass: "modal-content"
-    }, [_c("div", {
-      staticClass: "modal-header"
-    }, [_c("h5", {
-      staticClass: "modal-title",
-      attrs: {
-        id: "exampleModalLabel"
-      }
-    }, [_vm._v("\n                                                Chat with\n                                                "), _c("p", {
+      staticClass: "col-7"
+    }, [_c("p", {
       staticClass: "font-monospace"
-    }, [_vm._v(_vm._s(_vm.addForm.name))]), _vm._v(" "), _c("p", {
-      staticClass: "font-monospace badge badge-soft-dark"
-    }, [_vm._v("Users Joined:" + _vm._s(_vm.numberOfUsers))])]), _vm._v(" "), _c("button", {
-      staticClass: "btn-close",
-      attrs: {
-        type: "button",
-        "data-bs-dismiss": "modal",
-        "aria-label": "Close"
-      }
-    })]), _vm._v(" "), _c("div", {
-      staticClass: "modal-body"
-    }, [_c("form", {
-      attrs: {
-        method: "post"
+    }, [_vm._v("\n                                                                                            Message:\n                                                                                            "), _c("span", {
+      staticClass: "text-danger"
+    }, [_vm._v(_vm._s(message))])])]), _vm._v(" "), _c("div", {
+      staticClass: "col-5"
+    }, [_c("p", {
+      staticClass: "font-monospace"
+    }, [_vm._v("\n                                                                                            Sent By:\n                                                                                            "), _c("span", {
+      staticClass: "text-danger"
+    }, [_vm._v(_vm._s(_vm.chat.users[index]))])])])])]);
+  }), 0)])])])])])])])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer col-12"
+  }, [_c("div", {
+    staticClass: "row col-12 pt-2"
+  }, [_c("div", {
+    staticClass: "col-10"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.message,
+      expression: "message"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      placeholder: "Please Enter Type:",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.message
+    },
+    on: {
+      keyup: function keyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.storeMethod(_vm.message);
       },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-        }
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.message = $event.target.value;
       }
-    }, [_c("div", {
-      staticClass: "row"
-    }, [_c("div", {
-      staticClass: "col-12"
-    }, [_c("div", {
-      staticClass: "form-group"
-    }, [_c("div", {
-      staticClass: "row"
-    }, [_c("div", {
-      staticClass: "col-12"
-    }, [_c("div", {
-      staticClass: "card"
-    }, [_c("div", {
-      staticClass: "card-header"
-    }, [_c("h5", {
-      staticClass: "card-title col-10"
-    }, [_vm._v("\n                                                                                Latest Messages\n                                                                            ")]), _vm._v(" "), _c("p", {
-      staticClass: "badge badge-soft-primary text-danger col-2"
-    }, [_vm._v("@" + _vm._s(_vm.typing))])]), _vm._v(" "), _c("div", {
-      staticClass: "card-body"
-    }, [_c("div", {
-      staticClass: "card-text"
-    }, [_c("ul", _vm._l(_vm.chat.messages, function (message, index) {
-      return _c("li", {
-        key: message.index
-      }, [_c("div", {
-        staticClass: "row"
-      }, [_c("div", {
-        staticClass: "col-9"
-      }, [_c("p", {
-        staticClass: "text-success"
-      }, [_vm._v(_vm._s(message))])]), _vm._v(" "), _c("div", {
-        staticClass: "col-3"
-      }, [_c("p", {
-        staticClass: "text-danger"
-      }, [_vm._v(_vm._s(_vm.chat.users[index]))])])])]);
-    }), 0)])])])])]), _vm._v(" "), _c("div", {
-      staticClass: "row pt-2"
-    }, [_c("div", {
-      staticClass: "col-10"
-    }, [_c("input", {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: _vm.addForm.message,
-        expression: "addForm.message"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        type: "text",
-        placeholder: "Please Enter Type:",
-        maxlength: "50",
-        required: ""
-      },
-      domProps: {
-        value: _vm.addForm.message
-      },
-      on: {
-        keyup: function keyup($event) {
-          if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-          return _vm.storeMethod(_vm.addForm);
-        },
-        input: function input($event) {
-          if ($event.target.composing) return;
-          _vm.$set(_vm.addForm, "message", $event.target.value);
-        }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-2"
+  }, [_c("button", {
+    staticClass: "btn btn-primary",
+    on: {
+      click: function click($event) {
+        return _vm.storeMethod(_vm.message);
       }
-    })]), _vm._v(" "), _c("div", {
-      staticClass: "col-2"
-    }, [_c("button", {
-      staticClass: "btn btn-primary",
-      on: {
-        click: function click($event) {
-          return _vm.storeMethod(_vm.addForm);
-        }
-      }
-    }, [_vm._v("Send")])])])])])])]), _vm._v(" "), _vm.addFormErrors ? _c("div", {
-      staticClass: "col-12"
-    }, _vm._l(_vm.addFormErrors, function (error) {
-      return _c("p", {
-        staticClass: "text-danger"
-      }, [_vm._v(_vm._s(error))]);
-    }), 0) : _vm._e()]), _vm._v(" "), _vm._m(1, true)])])])]);
-  }), 0)])])])])]);
+    }
+  }, [_vm._v("Send")])])])])])])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -283,19 +247,26 @@ var staticRenderFns = [function () {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-8"
-  }, [_vm._v("\n                            Groups\n                        ")])]);
+  }, [_vm._v("\n                        Groups\n                    ")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "modal-footer"
-  }, [_c("button", {
-    staticClass: "btn btn-secondary",
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title",
     attrs: {
-      type: "button",
-      "data-bs-dismiss": "modal"
+      id: "exampleModalLabel"
     }
-  }, [_vm._v("Close")])]);
+  }, [_vm._v("\n                                    Chat\n                                ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-6"
+  }, [_c("h5", {
+    staticClass: "card-title"
+  }, [_vm._v("\n                                                                            Latest Messages\n                                                                        ")])]);
 }];
 render._withStripped = true;
 

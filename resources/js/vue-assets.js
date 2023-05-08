@@ -17,7 +17,23 @@ import Vue from 'vue';
 import SwalHelper from "./Helpers/SwalHelper";
 window.SwalHelper = SwalHelper;
 
+
 //import All general used functions
+if (auth_user) {
+    localStorage.setItem('id', auth_user.id);
+    localStorage.setItem('name', auth_user.name);
+}
+function getAuthUser(){
+    axios.get(base_url + 'api/auth/user')
+        .then(response =>{
+            localStorage.setItem('id', response.data.user.id);
+            localStorage.setItem('username', response.data.user.name);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
 const token = sessionStorage.getItem('token');
 if (token){
     axios.interceptors.request.use(
