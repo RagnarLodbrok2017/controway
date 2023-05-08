@@ -113,28 +113,27 @@ export default {
             base_url:base_url,
             auth_user:auth_user,
             users:{},
-            addFormErrors:[],
             message:'',
             username:'',
             chat: {
                 messages:[],
                 users:[],
+                colors:[],
+                times:[],
             },
             messages: [],
-            channelName:'my-channel',
+            channelName:'chat',
             typing:'',
             numberOfUsers:0,
         }
     },
     mounted() {
-        // this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
         Echo.private('chat')
             .listen('ChatEvent', (e) => {
                 this.sendMessage(e.username, e.message);
             })
             .listenForWhisper('typing', (e) =>{
-                if(e.message != ''){
+                if(e.message !== '' && e.message.length !== 0){
                     this.typing = e.username + ' typing...'
                 }else{
                     this.typing = '';
@@ -164,29 +163,33 @@ export default {
                     console.log(error.response.data);
                 })
         },
-        sendMessage(username ,message){
+        sendMessage(username ,message, color, time){
             this.chat.users.push(username);
             this.chat.messages.push(message);
+            this.chat.colors.push(color);
+            this.chat.times.push(time);
         },
         storeMethod(message)
         {
-            if(message === ''){
+            if(message === '' && message.length === 0 ){
                 return;
             }
 
-            this.sendMessage('You', message);
+            this.sendMessage('You', message, 'success', this.getTime());
             let formData = new FormData();
             formData.append('message' ,message);
             axios.post(base_url + 'api/messages/' , formData)
                 .then(response => {
                     this.typing = '';
                     this.message = '';
-                    // response.data.product ? this.products.push(response.data.product) : null;
-                    // this.addFormErrors = response.data.errors;
                 })
                 .catch(error => {
-                    // this.addFormErrors = error.response.data.errors;
+                    console.log(error.response.data);
                 })
+        },
+        getTime(){
+            let time = new Date();
+            return time.getDate()+':'+time.getHours()+':'+time.getMinutes();
         },
     },
     computed:{

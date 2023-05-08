@@ -22,27 +22,26 @@ __webpack_require__.r(__webpack_exports__);
       base_url: base_url,
       auth_user: auth_user,
       users: {},
-      addFormErrors: [],
       message: '',
       username: '',
       chat: {
         messages: [],
-        users: []
+        users: [],
+        colors: [],
+        times: []
       },
       messages: [],
-      channelName: 'my-channel',
+      channelName: 'chat',
       typing: '',
       numberOfUsers: 0
     };
   },
   mounted: function mounted() {
     var _this = this;
-    // this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
     Echo["private"]('chat').listen('ChatEvent', function (e) {
       _this.sendMessage(e.username, e.message);
     }).listenForWhisper('typing', function (e) {
-      if (e.message != '') {
+      if (e.message !== '' && e.message.length !== 0) {
         _this.typing = e.username + ' typing...';
       } else {
         _this.typing = '';
@@ -67,26 +66,30 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       });
     },
-    sendMessage: function sendMessage(username, message) {
+    sendMessage: function sendMessage(username, message, color, time) {
       this.chat.users.push(username);
       this.chat.messages.push(message);
+      this.chat.colors.push(color);
+      this.chat.times.push(time);
     },
     storeMethod: function storeMethod(message) {
       var _this3 = this;
-      if (message === '') {
+      if (message === '' && message.length === 0) {
         return;
       }
-      this.sendMessage('You', message);
+      this.sendMessage('You', message, 'success', this.getTime());
       var formData = new FormData();
       formData.append('message', message);
       axios.post(base_url + 'api/messages/', formData).then(function (response) {
         _this3.typing = '';
         _this3.message = '';
-        // response.data.product ? this.products.push(response.data.product) : null;
-        // this.addFormErrors = response.data.errors;
       })["catch"](function (error) {
-        // this.addFormErrors = error.response.data.errors;
+        console.log(error.response.data);
       });
+    },
+    getTime: function getTime() {
+      var time = new Date();
+      return time.getDate() + ':' + time.getHours() + ':' + time.getMinutes();
     }
   },
   computed: {},
@@ -338,116 +341,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageComponent_vue_vue_type_template_id_423a7ee4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageComponent_vue_vue_type_template_id_423a7ee4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MessageComponent.vue?vue&type=template&id=423a7ee4&scoped=true& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Messages/Group/MessageComponent.vue?vue&type=template&id=423a7ee4&scoped=true&");
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ normalizeComponent)
-/* harmony export */ });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent(
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */,
-  shadowMode /* vue-cli only */
-) {
-  // Vue.extend constructor export interop
-  var options =
-    typeof scriptExports === 'function' ? scriptExports.options : scriptExports
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) {
-    // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () {
-          injectStyles.call(
-            this,
-            (options.functional ? this.parent : this).$root.$options.shadowRoot
-          )
-        }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functional component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection(h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
 
 
 /***/ })

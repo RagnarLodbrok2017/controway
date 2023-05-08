@@ -31,6 +31,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import {routes} from './routes';
 
+//Laravel Chat Echo and Pusher
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
@@ -42,6 +43,8 @@ window.Echo = new Echo({
     forceTLS: true,
     encrypted: false
 });
+Vue.component('message', require('./components/Messages/Parts/MessagePartComponent.vue'));
+//End Laravel Chat
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);
