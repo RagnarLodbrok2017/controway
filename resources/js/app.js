@@ -43,7 +43,7 @@ window.Echo = new Echo({
     forceTLS: true,
     encrypted: false
 });
-Vue.component('message', require('./components/Messages/Parts/MessagePartComponent.vue'));
+Vue.component('message', () => import('./components/Messages/Parts/MessagePartComponent.vue'));
 //End Laravel Chat
 
 window.Vue = require('vue').default;

@@ -1,14 +1,24 @@
 <template>
     <div>
         <li class="list-group-item" :class="className"><slot></slot>
-            <span id="time">{{ time }}</span></li>
-        <small class="badge float-right" :class='badgeClass'>{{ user }}</small>
+            <div class="row">
+                <div class="col-7">
+                    <p class="text-info">{{ message }}</p>
+                </div>
+                <div class="col-5">
+                    <span id="time">{{ time }}</span>
+                    <small :class='badgeClass'>{{ user }}</small>
+                </div>
+            </div>
+
+        </li>
     </div>
 </template>
 
 <script>
 export default {
     props:[
+        'message',
         'color',
         'user',
         'time'
@@ -18,11 +28,11 @@ export default {
             return 'list-group-item-'+this.color;
         },
         badgeClass(){
-            return 'badge-'+this.color;
+            return 'text-'+this.color;
         }
     },
     mounted() {
-        console.log('Component mounted.')
+
     }
 }
 </script>
